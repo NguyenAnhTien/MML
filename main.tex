@@ -1,0 +1,26 @@
+\documentclass{report}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{tcolorbox}
+\usepackage{hyperref}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{lemma}[theorem]{Lemma}
+
+\title{Notes of Machine Learning}
+\author{Anh-Tien Nguyen}
+
+\begin{document}
+
+
+\maketitle
+\chapter*{Abstract}
+\tableofcontents
+
+\include{chapter001/chapter001}
+
+\bibliographystyle{plain}
+\bibliography{refs/refs}
+
+\end{document}
