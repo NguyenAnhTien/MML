@@ -1,18 +1,29 @@
-\documentclass{report}
+\documentclass[12pt twoside]{report}
 \usepackage[utf8]{inputenc}
 \usepackage{graphicx}
 \usepackage{tcolorbox}
 \usepackage{hyperref}
+\usepackage{geometry}
+\usepackage{multicol}
+\usepackage{amsmath,tabularx}
+
+\newgeometry{
+	top=1.5in,
+	bottom=1.5in,
+	outer=1.5in,
+	inner=1.5in
+}
 
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{corollary}{Corollary}[theorem]
 \newtheorem{lemma}[theorem]{Lemma}
 
+\newtheorem{definition}{Definition}[section]
+
 \title{Notes of Machine Learning}
 \author{Anh-Tien Nguyen}
 
 \begin{document}
-
 
 \maketitle
 \chapter*{Abstract}
