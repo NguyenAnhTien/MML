@@ -1,0 +1,200 @@
+\chapter{Matrices}
+
+\section{Symmetric Matrices}
+
+Given a matrix $A_{3x3}$ defined as
+
+$$
+A = 
+\begin{bmatrix}
+a_{11} & a_{12} & a_{13}\\
+a_{21} & a_{22} & a_{23}\\
+a_{31} & a_{32} & a_{33}
+\end{bmatrix}
+$$
+
+thus,
+
+$$
+A^T = 
+\begin{bmatrix}
+a_{11} & a_{21} & a_{31}\\
+a_{12} & a_{22} & a_{32}\\
+a_{13} & a_{23} & a_{33}
+\end{bmatrix}
+$$
+
+\begin{equation}
+    AA^T = 
+    \begin{bmatrix}
+        (a_{11}a_{11} + a_{12}a_{12} + a_{13}a_{13}) & (a_{11}a_{21} + a_{12}a_{22} + a_{13}a_{23}) & (a_{11}a_{31} + a_{12}a_{32} + a_{13}a_{33})\\
+        (a_{21}a_{11} + a_{22}a_{12} + a_{23}a_{13}) & (a_{21}a_{21} + a_{22}a_{22} + a_{23}a_{23}) & (a_{21}a_{31} + a_{22}a_{32} + a_{23}a_{33})\\
+        (a_{31}a_{11} + a_{32}a_{12} + a_{33}a_{13}) & (a_{31}a_{21} + a_{32}a_{22} + a_{33}a_{23}) & (a_{31}a_{31} + a_{32}a_{32} + a_{33}a_{33})
+    \end{bmatrix}    
+\end{equation}
+
+let
+
+$$
+K = (a_{11}a_{11} + a_{12}a_{12} + a_{13}a_{13})
+$$
+
+$$
+L = (a_{11}a_{21} + a_{12}a_{22} + a_{13}a_{23})
+$$
+
+$$
+H = (a_{11}a_{31} + a_{12}a_{32} + a_{13}a_{33})
+$$
+
+$$
+M = (a_{21}a_{21} + a_{22}a_{22} + a_{23}a_{23})
+$$
+
+$$
+N = (a_{21}a_{31} + a_{22}a_{32} + a_{23}a_{33})
+$$
+
+$$
+G = (a_{31}a_{31} + a_{32}a_{32} + a_{33}a_{33})
+$$
+
+then,
+
+\begin{equation}
+    AA^T = 
+    \begin{bmatrix}
+        K & L & H\\
+        L & M & N\\
+        H & N & G
+    \end{bmatrix}    
+\end{equation}
+
+and
+
+$$
+(AA^T)^T = 
+\begin{bmatrix}
+    K & L & H\\
+    L & M & N\\
+    H & N & G
+\end{bmatrix}
+$$
+
+therefore,
+
+\begin{equation}
+    AA^T = (AA^T)^T
+\end{equation}
+
+In conclusion, $AA^T$ is a symmetric matrix.
+
+\section{Derivatives}
+Given
+
+$$
+w = 
+\begin{bmatrix}
+    w_1\\
+    w_2\\
+    w_3
+\end{bmatrix}
+\ \ \ \ A =
+\begin{bmatrix}
+    a_{11} & a_{12} & a_{13}\\
+    a_{21} & a_{22} & a_{23}\\
+    a_{31} & a_{32} & a_{33}
+\end{bmatrix}
+$$
+
+thus,
+
+$$
+w^TAw =
+[w_1\ w_2\ w_3]
+\begin{bmatrix}
+    a_{11} & a_{12} & a_{13}\\
+    a_{21} & a_{22} & a_{23}\\
+    a_{31} & a_{32} & a_{33}
+\end{bmatrix}
+\begin{bmatrix}
+    w_1\\
+    w_2\\
+    w_3
+\end{bmatrix}
+$$
+
+$$
+w^TAw =
+\begin{bmatrix}
+    (w_1a_{11} + w_2a_{21} + w_3a_{31}) & (w_1a_{12} + w_2a_{22} + w_3a_{32}) & (w_1a_{13} + w_2a_{23} + w_3a_{33})\\
+\end{bmatrix}
+\begin{bmatrix}
+    w_1\\
+    w_2\\
+    w_3
+\end{bmatrix}
+$$
+
+$$
+\Leftrightarrow w^TAw =
+    (w_1w_1a_{11} + w_1w_2a_{21} + w_1w_3a_{31}) + (w_2w_1a_{12} + w_2w_2a_{22} + w_2w_3a_{32}) + (w_3w_1a_{13} + w_3w_2a_{23} + w_3w_3a_{33})\\
+$$
+
+if $A$ is a symmetric matrix, then $a_{21} = a_{12}$, $a_{13} = a_{31}$, $a_{32} = a_{23}$
+
+then,
+$$
+w^TAw =
+    (w_1w_1a_{11} + w_1w_2a_{12} + w_1w_3a_{13}) + (w_2w_1a_{12} + w_2w_2a_{22} + w_2w_3a_{23}) + (w_3w_1a_{13} + w_3w_2a_{23} + w_3w_3a_{33})\\
+$$
+
+$$
+w^TAw =
+    (w_1w_1a_{11} + 2w_1w_2a_{12} + 2w_1w_3a_{13}) + (w_2w_2a_{22} + 2w_2w_3a_{23} +w_3w_3a_{33})\\
+$$
+
+$$
+\frac{\partial (w^TAw)}{\partial w_1} = \frac{2w_1a_{11} + 2w_2a_{12} + 2w_3a_{13}}{\partial w_1}
+$$
+
+$$
+\frac{\partial (w^TAw)}{\partial w_2} = \frac{2w_1a_{12} + 2w_2a_{22} + 2w_3a_{23}}{\partial w_2}
+$$
+
+$$
+\frac{\partial (w^TAw)}{\partial w_3} = \frac{2w_1a_{31} + 2w_2a_{23} + 2w_3a_{33}}{\partial w_3}
+$$
+in other words,
+
+\begin{equation}
+    \frac{\partial w^TAw}{\partial w} = 
+    \begin{bmatrix}
+        2w_1a_{11} + 2w_2a_{12} + 2w_3a_{13}\\
+        2w_1a_{12} + 2w_2a_{22} + 2w_3a_{23}\\
+        2w_1a_{31} + 2w_2a_{23} + 2w_3a_{33}
+    \end{bmatrix}
+\end{equation}
+
+
+since,
+
+$$
+Aw = 
+\begin{bmatrix}
+    a_{11}w_1 + a_{12}w_2 + a_{13}w_3\\
+    a_{21}w_1 + a_{22}w_2 + a_{23}w_3\\
+    a_{31}w_1 + a_{32}w_2 + a_{33}w_3
+\end{bmatrix}
+$$
+
+thus
+
+\begin{equation}
+    \frac{\partial w^TAw}{\partial w} = 2Aw
+\end{equation}
+
+
+
+
+

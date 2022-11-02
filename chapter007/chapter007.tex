@@ -1,0 +1,102 @@
+\chapter{Linear Models for Regression}
+
+\section{Linear Basis Function Models}
+
+Given a training data set comprising $N$ observations $\{x_n\}$, where $n=1, ..., N$, together with corresponding target values $\{t_n\}$, the goal is to predict the value of $t$ for a new value of $x$. In the simplest approach, this can be done by directly constructing an appropriate function $y(x)$ whose values for new inputs $x$ constitue the predictions for the corresponding values of $t$.
+
+The simplest linear model for regression is one that involves a linear combination of the input variables
+
+\begin{equation}
+    y(x, \pmb{w}) = w_0 + w_1x_1 + ... + w_Dx_D
+\end{equation}
+
+where $x = (x_1, ..., x_D)^T$. This is often simply known as \textbf{linear regression}. It is also a linear function of the input variables $x_i$, and this imposes significant limitations on the model. We therefore extend the class of models by considering linear combinations of fixed nonlinear functions of the input variables, of the form
+
+\begin{equation}
+    y(x, \pmb{w}) = w_0 + \sum_{j=1}^{M - 1}w_j \phi_j (x)
+\end{equation}
+
+where $\phi_j(x)$ are known as \textbf{basic functions}. By denoting the maximum value of the index $j$ by $M - 1$, the total number of parameters in this model will be $M$.
+
+The parameter $w_0$ allows for any fixed offset in the data and is sometimes called a bias parameter (not to be confused with " bias" in a statistical sense).
+
+It is often convenient to define an additional dummy "basic function" $\phi_0 (x) = 1$ so that
+
+\begin{equation}
+    y(x, \pmb{w}) = \sum_{j=1}^{M - 1}w_j \phi_j (x) = \pmb{w}^T \phi (x)
+\end{equation}
+
+where $\pmb{w} = (w_0, ..., w_{M - 1})^T$ and $\phi = (\phi_0, ..., \phi _{M - 1})^T$.
+
+For example $\phi_j(x) = x^j$. One limitation of polynomial basic functions is that they are global functions of the input variable, so that changes in one region of input space affect all other regions.
+
+In many practical applications of pattern recognition, we will apply some form of fixed pre-processing, of feature extraction, to the original data variables.
+
+If the original variables comprise the vector $x$, then the features can be expressed in terms of the basis functions $\{\phi_j (x)\}$.
+
+\textbf{By using nonlinear basis functions}, we allow the function $y(x, \pmb{w})$ to be a non-linear of the input vector $x$.
+
+\section{Maximum likelihood and Least Squares}
+we assume that the target variable $t$ is given by a deterministic function $y(x, \pmb{w})$ with additive Gaussian noise so that
+
+\begin{equation}
+    t = y(x, \pmb{w}) + \epsilon
+\end{equation}
+
+where $\epsilon$ is a zero mean Gaussian random variable with precision $\beta^{-1} = \sigma^2 \Leftrightarrow \beta = \frac{1}{\sigma^2}$, $\beta$ is maximum when $\sigma^2$ is minimum.
+
+We assume that, given the value of $x$, the corresponding value of $t$ has a Gaussian distribution with a mean equal to the value $y(x, \pmb{w})$.
+
+\begin{equation}
+    p(t|x, \pmb{w}, \beta) = \mathcal{N}(t | y(x, \pmb{w}), \beta^{-1})
+\end{equation}
+
+If we assume a squared loss function, then the optimal prediction, for a new value of $x$, will be given by the conditional mean of the target variable.
+
+\begin{equation}
+    \mathbb{E}[t|x] = \int tp(t|x)dt = y(x, \pmb{w}) 
+\end{equation}
+
+Now consider a data set of inputs $X = \{x_1, ..., x_N\}$ with corresponding target values $t_1, ..., t_N$. We group the target variables $\{t_n\}$ into a column vector that we denote by $\pmb{t}$.
+
+Making the assumption that these data points are drawn independently from the distribution
+
+\begin{equation}
+    \mathbb{E}[t|x] = \int tp(t|x)dt = y(x, \pmb{w}) 
+\end{equation}
+
+we obtain
+
+\begin{equation}
+    p(\pmb{t} | \pmb{X}, \pmb{w}, \beta) = \prod_{n=1}^N \mathcal{N}(t_n | \pmb{w}^T \phi(x_n), \beta^{-1})
+\end{equation}
+
+Note that in supervised learning problems, we are not seeking to model the distribution of the input variables. Thus $x$ will always appear in the set of conditioning variables, and so from now on we will drop the explicit $x$ from expressions such as $p(\pmb{t}|x, \pmb{w}, \beta)$ in order to keep the notation uncluttered.
+
+\begin{equation}
+    \begin{split}
+        ln (p(\pmb{t} | \pmb{w}, \beta)) & = \sum_{n=1}^N ln \mathcal{N}(t_n| \pmb{w}^T \phi(x_n), \beta^{-1})\\
+        & = \sum_{n=1}^N ln [ \frac{1}{(2\pi \sigma^2)^{1/2}} exp \{ - \frac{1}{2\sigma^2} (t_n - \pmb{w}^T \phi (x_n))^2\}]\\
+        & = \sum_{n=1}^N ln [ \frac{1}{(2\pi \sigma^2)^{1/2}}] + \sum_{n=1}^N ln[exp \{ - \frac{1}{2\sigma^2} (t_n - \pmb{w}^T \phi (x_n))^2\}]]\\
+        & = \sum_{n=1}^N ln (1) - \sum_{n=1}^N ln(2\pi \sigma^2)^{1/2}) - \sum_{n=1}^N \frac{1}{2\sigma^2} (t_n - \pmb{w}^T \phi (x_n))^2\\
+        & = - \frac{1}{2}\sum_{n=1}^N ln(2\pi \sigma^2) - \sum_{n=1}^N \frac{1}{2\sigma^2} (t_n - \pmb{w}^T \phi (x_n))^2\\
+        & = - \frac{1}{2}\sum_{n=1}^N ln(2\pi) - \frac{1}{2}\sum_{n=1}^N ln(\sigma^2) - \sum_{n=1}^N \frac{1}{2\sigma^2} (t_n - \pmb{w}^T \phi (x_n))^2\\
+        & = - \frac{1}{2}\sum_{n=1}^N ln(2\pi) + \frac{1}{2}\sum_{n=1}^N ln(\sigma^{-2}) - \frac{1}{2\sigma^2}\sum_{n=1}^N (t_n - \pmb{w}^T \phi (x_n))^2\\
+        & = - \frac{1}{2}\sum_{n=1}^N ln(2\pi) + \frac{1}{2}\sum_{n=1}^N ln(\frac{1}{\sigma^{2}}) - \frac{1}{2\sigma^2}\sum_{n=1}^N (t_n - \pmb{w}^T \phi (x_n))^2\\
+        & = - \frac{1}{2}\sum_{n=1}^N ln(2\pi) + \frac{1}{2}\sum_{n=1}^N ln(\beta) - \beta\frac{1}{2}\sum_{n=1}^N (t_n - \pmb{w}^T \phi (x_n))^2\\
+    \end{split}
+\end{equation}
+
+Let the sum-of-squares error function is defined by
+
+\begin{equation}
+    E_D(w) = \frac{1}{2}\sum_{n=1}^N (t_n - w^T \phi (x_n))^2
+\end{equation}
+
+\textbf{Maximization of the likelihood function under a conditional Gaussian noise distribution for a linear model is equivalent to minimizing a sum-of-squares error function given by} $E_D(\pmb{w})$. The gradient of the log likelihood function takes the form
+
+\begin{align}
+    \begin{split}
+        \nabla ln (p(\pmb{t} | \pmb{w}, \beta)) & = 
+    \end{split}
+\end{align}
